@@ -24,4 +24,11 @@ public class Question {
     private List<String> topics;
     @DocumentReference
     private List<Answer> answerIds;
+
+    public Question(String title, String description, String dateAsked, Boolean isResolved) {
+        this.title = title;
+        this.description = description;
+        this.dateAsked = dateAsked;
+        this.isResolved = isResolved;
+    }
 }
