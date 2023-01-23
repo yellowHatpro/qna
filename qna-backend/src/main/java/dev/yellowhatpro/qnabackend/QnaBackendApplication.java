@@ -9,5 +9,4 @@ public class QnaBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(QnaBackendApplication.class, args);
     }
-
 }
