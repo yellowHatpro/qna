@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.List;
 
-@Document(collation = "questions")
+@Document(collection = "questions")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
