@@ -15,4 +15,8 @@ public class Answer {
     @Id
     private ObjectId id;
     private String body;
+
+    public Answer(String body) {
+        this.body = body;
+    }
 }
