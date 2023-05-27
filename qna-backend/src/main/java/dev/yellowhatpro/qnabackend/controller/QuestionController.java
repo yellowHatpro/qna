@@ -31,6 +31,6 @@ public class QuestionController {
 
     @PostMapping("/api/v1/questions/create")
     public ResponseEntity<Question> createQuestion(@RequestBody Map<String,String> payload){
-        return new ResponseEntity<>(questionService.createQuestion(payload.get("title"), payload.get("description") ), HttpStatus.CREATED);
+        return new ResponseEntity<>(questionService.createQuestion(payload.get("title"), payload.get("description"), payload.get("userId") ), HttpStatus.CREATED);
     }
 }

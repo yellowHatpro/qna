@@ -20,6 +20,6 @@ public class AnswerController {
 
     @PostMapping
     public ResponseEntity<Answer> createAnswer(@RequestBody Map<String, String> payload){
-        return new ResponseEntity<Answer>(answerService.createAnswer(payload.get("answerBody"), payload.get("id")), HttpStatus.CREATED);
+        return new ResponseEntity<Answer>(answerService.createAnswer(payload.get("answerBody"), payload.get("questionId"), payload.get("userId")), HttpStatus.CREATED);
     }
 }
