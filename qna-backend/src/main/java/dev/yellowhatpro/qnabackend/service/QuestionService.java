@@ -2,13 +2,9 @@ package dev.yellowhatpro.qnabackend.service;
 
 import dev.yellowhatpro.qnabackend.data.Answer;
 import dev.yellowhatpro.qnabackend.data.Question;
-import dev.yellowhatpro.qnabackend.data.User;
 import dev.yellowhatpro.qnabackend.repo.QuestionRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -21,19 +17,12 @@ public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    public Question createQuestion(String title, String description, String userId) {
+    public Question createQuestion(String title, String description, String authorId) {
         String dateAsked = Calendar.getInstance().toString();
         Boolean isResolved = false;
-        Question question = new Question(title, description, dateAsked, isResolved);
+        Question question = new Question(title, description, dateAsked, isResolved, authorId);
         questionRepository.insert(question);
 
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(userId))
-                .apply(new Update().set("author", userId))
-                .first();
         return question;
     }
 
@@ -45,11 +34,14 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    public void markQuestionResolved(ObjectId id) {
+    public String markQuestionResolved(ObjectId id) {
         Optional<Question> questionOptional = questionRepository.findById(id);
         if (questionOptional.isPresent()) {
             Question question = questionOptional.get();
             question.setIsResolved(true);
+            return "ok";
+        } else {
+            return "wrong";
         }
     }
 

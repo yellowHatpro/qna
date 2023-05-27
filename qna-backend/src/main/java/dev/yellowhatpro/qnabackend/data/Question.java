@@ -24,17 +24,13 @@ public class Question {
     private List<String> topics;
     @DocumentReference
     private List<Answer> answerIds;
-    @DocumentReference
-    private User author;
+    private String authorId;
 
-    public Question(String title, String description, String dateAsked, Boolean isResolved) {
+    public Question(String title, String description, String dateAsked, Boolean isResolved, String authorId) {
         this.title = title;
         this.description = description;
         this.dateAsked = dateAsked;
         this.isResolved = isResolved;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
+        this.authorId = authorId;
     }
 }

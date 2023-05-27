@@ -2,7 +2,6 @@ package dev.yellowhatpro.qnabackend.service;
 
 import dev.yellowhatpro.qnabackend.data.Answer;
 import dev.yellowhatpro.qnabackend.data.Question;
-import dev.yellowhatpro.qnabackend.data.User;
 import dev.yellowhatpro.qnabackend.repo.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -19,16 +18,12 @@ public class AnswerService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public Answer createAnswer(String answerBody, String questionId, String userId){
-        Answer answer =answerRepository.insert(new Answer(answerBody));
+    public Answer createAnswer(String answerBody, String questionId, String answererId){
+        Answer answer =answerRepository.insert(new Answer(answerBody, answererId));
 
         mongoTemplate.update(Question.class)
                 .matching(Criteria.where("id").is(questionId))
                 .apply(new Update().push("answerIds").value(answer))
-                .first();
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(userId))
-                .apply(new Update().set("answerer", userId))
                 .first();
         return answer;
     }

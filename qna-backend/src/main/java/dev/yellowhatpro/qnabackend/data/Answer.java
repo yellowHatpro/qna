@@ -19,15 +19,15 @@ public class Answer {
     private ObjectId id;
     private String dateAsked;
     private String body;
-    @DocumentReference
-    private User answerer;
+    private String answererId;
     @DocumentReference
     private List<User> upvoters;
     @DocumentReference
     private List<User> downvoters;
 
 
-    public Answer(String body) {
+    public Answer(String body, String answererId) {
         this.body = body;
+        this.answererId =  answererId;
     }
 }
