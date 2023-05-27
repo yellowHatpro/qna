@@ -28,7 +28,7 @@ public class AnswerService {
                 .first();
         mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(userId))
-                .apply(new Update().push("answers").value(answer))
+                .apply(new Update().set("answerer", userId))
                 .first();
         return answer;
     }
