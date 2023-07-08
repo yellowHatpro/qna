@@ -4,6 +4,8 @@ import dev.yellowhatpro.qnabackend.data.User;
 import dev.yellowhatpro.qnabackend.repo.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -15,6 +17,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     public User createUser(String firstName, String secondName, String username, String address, String githubUsername, String email, String phoneNumber){
         User user = new User(firstName, secondName, username, address, githubUsername, email, phoneNumber);
         userRepository.insert(user);
@@ -24,7 +29,8 @@ public class UserService {
     public Optional<User> userByUsername(String username) {
         return Optional.ofNullable(userRepository.findByUsername(username));
     }
-    public Optional<User> userById(ObjectId id){
+    public Optional<User> userById(String userId) {
+        ObjectId id = new ObjectId(userId);
         return userRepository.findById(id);
     }
     public List<User> connections(ObjectId id){

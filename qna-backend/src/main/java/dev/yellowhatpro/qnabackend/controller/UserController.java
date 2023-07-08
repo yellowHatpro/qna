@@ -6,8 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -19,8 +18,16 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<Optional<User>> user(@PathVariable String username) {
-        return new ResponseEntity<>(userService.userByUsername(username), HttpStatus.OK);
+    public ResponseEntity<User> user(@PathVariable String username) {
+
+        Optional<User> userOptional = userService.userByUsername(username);
+        return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new User(), HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> userById(@PathVariable String userId) {
+        Optional<User> userOptional = userService.userById(userId);
+        return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new User(), HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/create")
@@ -33,5 +40,16 @@ public class UserController {
                 payload.get("email"),
                 payload.get("phonenumber")
         ), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/connection")
+    public ResponseEntity<List<User>> getConnectionsOfUser(@RequestBody Map<String, String> payload) {
+        Optional<User> userOptional = userService.userById(payload.get("userId"));
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return new ResponseEntity<List<User>>(user.getConnections(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
+        }
     }
 }

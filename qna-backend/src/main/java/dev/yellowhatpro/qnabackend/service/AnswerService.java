@@ -31,11 +31,12 @@ public class AnswerService {
         return answer;
     }
 
-    public void upVote(String answerId){
+    public String upvote(String answerId){
         mongoTemplate.update(Answer.class)
                 .matching(Criteria.where("id").is(answerId))
                 .apply(new Update().inc("totalUpvotes", 1))
                 .first();
+        return "ok";
     }
 
     public Optional<Answer> getAnswerById(ObjectId answerId) { return answerRepository.findById(answerId); }

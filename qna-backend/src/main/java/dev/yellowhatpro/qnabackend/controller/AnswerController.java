@@ -24,7 +24,7 @@ public class AnswerController {
     }
 
     @PostMapping("/upvote")
-    public void upvote(@RequestBody Map<String,String> payload){
-        answerService.upVote(payload.get("answerId"));
+    public ResponseEntity<String> upvote(@RequestBody Map<String,String> payload){
+        return new ResponseEntity<String>(answerService.upvote(payload.get("answerId")), HttpStatus.OK);
     }
 }
