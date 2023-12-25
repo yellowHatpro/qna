@@ -1,12 +1,31 @@
-// @flow
 import * as React from 'react';
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import {question} from "@/ types/question";
+import getAllQuestions from "@/lib/getQuestions";
+import {QuestionCard} from "@/components/questionCard";
+
 
 export const Body = async() => {
     const session = await getServerSession(authOptions);
+    const questionsData: Promise<question[]> = getAllQuestions()
+    const questions = await questionsData
+    const questionsDiv = (
+        <section className={"grid auto-rows-fr grid-cols-1 gap-4 justify-between grow p-2 m-2"}>
+            {
+                questions.map((question)=>{
+                    return <>
+                        <QuestionCard question={question}/>
+                    </>
+                })
+            }
+        </section>
+    )
     return (<div>{
             (session && session.user) ? <div>
+                {
+                    questionsDiv
+                }
             </div> :
             //not signed in
             <div className={"pt-16"}>
@@ -47,3 +66,4 @@ export const Body = async() => {
         </div>
     );
 }
+
