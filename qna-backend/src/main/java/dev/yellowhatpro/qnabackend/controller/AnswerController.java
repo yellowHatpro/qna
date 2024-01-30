@@ -1,6 +1,6 @@
 package dev.yellowhatpro.qnabackend.controller;
 
-import dev.yellowhatpro.qnabackend.data.Answer;
+import dev.yellowhatpro.qnabackend.dto.AnswerDto;
 import dev.yellowhatpro.qnabackend.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,16 +15,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/answers")
 public class AnswerController {
+
     @Autowired
     private AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<Answer> createAnswer(@RequestBody Map<String, String> payload){
-        return new ResponseEntity<Answer>(answerService.createAnswer(payload.get("answerBody"), payload.get("questionId"), payload.get("userId")), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/upvote")
-    public ResponseEntity<String> upvote(@RequestBody Map<String,String> payload){
-        return new ResponseEntity<String>(answerService.upvote(payload.get("answerId")), HttpStatus.OK);
+    public ResponseEntity<AnswerDto> createAnswer(@RequestBody AnswerDto answerDto){
+        AnswerDto savedAnswer = answerService.createAnswer(answerDto);
+        return new ResponseEntity<>(savedAnswer, HttpStatus.CREATED);
     }
 }

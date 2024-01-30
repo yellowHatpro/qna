@@ -1,7 +1,8 @@
 package dev.yellowhatpro.qnabackend.controller;
 
-import dev.yellowhatpro.qnabackend.data.User;
+import dev.yellowhatpro.qnabackend.dto.UserDto;
 import dev.yellowhatpro.qnabackend.service.UserService;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,38 +19,21 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> user(@PathVariable String username) {
+    public ResponseEntity<UserDto> getUserByName(@PathVariable String username) {
 
-        Optional<User> userOptional = userService.userByUsername(username);
-        return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new User(), HttpStatus.NOT_FOUND));
+        Optional<UserDto> user = userService.getUserByName(username);
+        return user.map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> userById(@PathVariable String userId) {
-        Optional<User> userOptional = userService.userById(userId);
-        return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new User(), HttpStatus.NOT_FOUND));
+    public ResponseEntity<UserDto> userById(@PathVariable ObjectId userId) {
+        Optional<UserDto> userOptional = userService.getUserById(userId);
+        return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody Map<String, String> payload) {
-        return new ResponseEntity<>(userService.createUser(payload.get("firstname"),
-                payload.get("secondname"),
-                payload.get("username"),
-                payload.get("address"),
-                payload.get("githubusername"),
-                payload.get("email"),
-                payload.get("phonenumber")
-        ), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/connection")
-    public ResponseEntity<List<User>> getConnectionsOfUser(@RequestBody Map<String, String> payload) {
-        Optional<User> userOptional = userService.userById(payload.get("userId"));
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return new ResponseEntity<List<User>>(user.getConnections(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        UserDto savedUser = userService.createUser(userDto);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 }

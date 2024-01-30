@@ -1,58 +1,20 @@
 package dev.yellowhatpro.qnabackend.service;
 
-import dev.yellowhatpro.qnabackend.data.Answer;
-import dev.yellowhatpro.qnabackend.data.Question;
-import dev.yellowhatpro.qnabackend.repo.QuestionRepository;
+import dev.yellowhatpro.qnabackend.dto.AnswerDto;
+import dev.yellowhatpro.qnabackend.dto.QuestionDto;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class QuestionService {
-    @Autowired
-    private QuestionRepository questionRepository;
+public interface QuestionService {
+    QuestionDto createQuestion(QuestionDto question);
+    List<QuestionDto> getAllQuestions();
 
-    public Question createQuestion(String title, String description, String authorId) {
-        String dateAsked = Calendar.getInstance().toString();
-        Boolean isResolved = false;
-        Question question = new Question(title, description, dateAsked, isResolved, authorId);
-        questionRepository.insert(question);
+    QuestionDto getQuestionById(ObjectId questionId);
 
-        return question;
-    }
+    QuestionDto updateQuestion(QuestionDto question);
 
-    public Optional<Question> questionById(ObjectId id) {
-        return questionRepository.findById(id);
-    }
+    List<AnswerDto> getAnswersByQuestionId(ObjectId questionId);
 
-    public List<Question> allQuestions() {
-        return questionRepository.findAll();
-    }
-
-    public String markQuestionResolved(ObjectId id) {
-        Optional<Question> questionOptional = questionRepository.findById(id);
-        if (questionOptional.isPresent()) {
-            Question question = questionOptional.get();
-            question.setIsResolved(true);
-            return "ok";
-        } else {
-            return "wrong";
-        }
-    }
-
-    public List<Answer> allAnswersOfQuestion(ObjectId id) {
-        Optional<Question> questionOptional = questionRepository.findById(id);
-        Question question;
-        if (questionOptional.isPresent()) {
-            question = questionOptional.get();
-        } else {
-            return Collections.emptyList();
-        }
-        return question.getAnswerIds();
-    }
+    void deleteQuestionById(ObjectId questionId);
 }

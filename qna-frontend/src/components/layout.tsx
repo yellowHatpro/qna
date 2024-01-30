@@ -3,6 +3,7 @@ import {Navbar} from "@/components/navbar";
 import {User} from "@/ types/user";
 import {Footer} from "@/components/footer";
 import {Sidebar} from "@/components/sidebar";
+import {Toaster} from "@/components/ui/toaster";
 
 type Props = {
     children: React.ReactNode,
@@ -19,6 +20,7 @@ export const Layout = ({children, user}: Props) => {
                     </div>
                     <div className={"grow"}>
                         {children}
+                        <Toaster/>
                     </div>
                 </div>
             </div>

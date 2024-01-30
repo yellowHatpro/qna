@@ -5,11 +5,26 @@ import {question} from "@/ types/question";
 import getAllQuestions from "@/lib/getQuestions";
 import {QuestionCard} from "@/components/questionCard";
 
-
 export const Body = async() => {
     const session = await getServerSession(authOptions);
     const questionsData: Promise<question[]> = getAllQuestions()
     const questions = await questionsData
+
+    const searchQuestionDiv = (
+        <section>
+            Search your question
+        </section>
+    )
+    const topSection = (
+        <section className={"justify-between flex flex-row px-4"}>
+            <div className={""}>
+                Search your Question
+            </div>
+            <div>
+                Ask a doubt
+            </div>
+        </section>
+    )
     const questionsDiv = (
         <section className={"grid auto-rows-fr grid-cols-1 gap-4 justify-between grow p-2 m-2"}>
             {
@@ -22,10 +37,10 @@ export const Body = async() => {
         </section>
     )
     return (<div>{
+
             (session && session.user) ? <div>
-                {
-                    questionsDiv
-                }
+                {topSection}
+                {questionsDiv}
             </div> :
             //not signed in
             <div className={"pt-16"}>

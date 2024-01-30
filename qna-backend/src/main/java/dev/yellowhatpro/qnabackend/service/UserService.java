@@ -1,47 +1,15 @@
 package dev.yellowhatpro.qnabackend.service;
 
-import dev.yellowhatpro.qnabackend.data.User;
-import dev.yellowhatpro.qnabackend.repo.UserRepository;
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
+import dev.yellowhatpro.qnabackend.dto.UserDto;
+import org.bson.types.ObjectId;
+
 import java.util.Optional;
 
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    public User createUser(String firstName, String secondName, String username, String address, String githubUsername, String email, String phoneNumber){
-        User user = new User(firstName, secondName, username, address, githubUsername, email, phoneNumber);
-        userRepository.insert(user);
-        return user;
-    }
-
-    public Optional<User> userByUsername(String username) {
-        return Optional.ofNullable(userRepository.findByUsername(username));
-    }
-    public Optional<User> userById(String userId) {
-        ObjectId id = new ObjectId(userId);
-        return userRepository.findById(id);
-    }
-    public List<User> connections(ObjectId id){
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()){
-            return userOptional.get().getConnections();
-        } else {
-            return Collections.emptyList();
-        }
-    }
-    public void deleteUser(ObjectId id){
-        userRepository.deleteById(id);
-    }
+public interface UserService {
+    UserDto createUser(UserDto user);
+    Optional<UserDto> getUserById(ObjectId userId);
+    Optional<UserDto> getUserByName(String name);
+    UserDto updateUser(UserDto user);
+    void deleteUserById(ObjectId userId);
 }

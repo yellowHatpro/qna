@@ -1,43 +1,22 @@
 package dev.yellowhatpro.qnabackend.service;
 
-import dev.yellowhatpro.qnabackend.data.Answer;
-import dev.yellowhatpro.qnabackend.data.Question;
-import dev.yellowhatpro.qnabackend.repo.AnswerRepository;
+import dev.yellowhatpro.qnabackend.dto.AnswerDto;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
-@Service
-public class AnswerService {
+public interface AnswerService {
 
-    @Autowired
-    private AnswerRepository answerRepository;
+    //Create Answer
+    AnswerDto createAnswer(AnswerDto answer);
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    //Get Answer by id
+    AnswerDto getAnswerById(ObjectId answerId);
 
-    public Answer createAnswer(String answerBody, String questionId, String answererId){
-        Answer answer =answerRepository.insert(new Answer(answerBody, answererId));
+    //Update Answer
+    AnswerDto updateAnswer(AnswerDto answer);
 
-        mongoTemplate.update(Question.class)
-                .matching(Criteria.where("id").is(questionId))
-                .apply(new Update().push("answerIds").value(answer))
-                .first();
-        return answer;
-    }
+    //Delete Answer
+    void deleteAnswerById(ObjectId answerId);
 
-    public String upvote(String answerId){
-        mongoTemplate.update(Answer.class)
-                .matching(Criteria.where("id").is(answerId))
-                .apply(new Update().inc("totalUpvotes", 1))
-                .first();
-        return "ok";
-    }
-
-    public Optional<Answer> getAnswerById(ObjectId answerId) { return answerRepository.findById(answerId); }
 }
