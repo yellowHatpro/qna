@@ -1,14 +1,17 @@
 package dev.yellowhatpro.qnabackend.service;
 
 import dev.yellowhatpro.qnabackend.data.Answer;
+import dev.yellowhatpro.qnabackend.data.Question;
+import dev.yellowhatpro.qnabackend.data.User;
 import dev.yellowhatpro.qnabackend.dto.AnswerDto;
 import dev.yellowhatpro.qnabackend.repo.AnswerRepository;
+import dev.yellowhatpro.qnabackend.repo.QuestionRepository;
+import dev.yellowhatpro.qnabackend.repo.UserRepository;
 import dev.yellowhatpro.qnabackend.utils.ModelDtoMapper;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,10 +19,19 @@ import java.util.Optional;
 public class AnswerServiceImpl implements AnswerService{
 
     private AnswerRepository answerRepository;
+    private UserRepository userRepository;
+    private QuestionRepository questionRepository;
+
     @Override
     public AnswerDto createAnswer(AnswerDto answerDto) {
         Answer answer = ModelDtoMapper.toAnswer(answerDto);
         Answer savedAnswer = answerRepository.insert(answer);
+        User user = userRepository.findById(new ObjectId(answerDto.getUser().getId())).get();
+        user.getAnswers().add(answer);
+        userRepository.save(user);
+        Question question = questionRepository.findById(new ObjectId(answerDto.getQuestion().getId())).get();
+        question.getAnswers().add(answer);
+        questionRepository.save(question);
         return ModelDtoMapper.toAnswerDto(savedAnswer);
     }
 

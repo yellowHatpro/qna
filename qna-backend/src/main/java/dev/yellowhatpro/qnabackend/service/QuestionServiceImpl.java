@@ -1,9 +1,11 @@
 package dev.yellowhatpro.qnabackend.service;
 
 import dev.yellowhatpro.qnabackend.data.Question;
+import dev.yellowhatpro.qnabackend.data.User;
 import dev.yellowhatpro.qnabackend.dto.AnswerDto;
 import dev.yellowhatpro.qnabackend.dto.QuestionDto;
 import dev.yellowhatpro.qnabackend.repo.QuestionRepository;
+import dev.yellowhatpro.qnabackend.repo.UserRepository;
 import dev.yellowhatpro.qnabackend.utils.ModelDtoMapper;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
@@ -17,11 +19,15 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl implements QuestionService {
 
     private QuestionRepository questionRepository;
+    private UserRepository userRepository;
 
     @Override
     public QuestionDto createQuestion(QuestionDto questionDto) {
         Question question = ModelDtoMapper.toQuestion(questionDto);
         Question savedQuestion = questionRepository.insert(question);
+        User user = userRepository.findById(new ObjectId(questionDto.getQuestioner().getId())).get();
+        user.getQuestionsAsked().add(savedQuestion);
+        userRepository.save(user);
         return ModelDtoMapper.toQuestionDto(savedQuestion);
     }
 

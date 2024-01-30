@@ -15,5 +15,7 @@ public class AnswerDto {
     private String title;
     private String body;
     private Integer totalUpvotes;
+    private UserDto user;
+    private QuestionDto question;
 
 }

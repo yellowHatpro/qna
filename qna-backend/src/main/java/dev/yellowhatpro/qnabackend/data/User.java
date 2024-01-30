@@ -1,8 +1,5 @@
 package dev.yellowhatpro.qnabackend.data;
 
-import dev.yellowhatpro.qnabackend.dto.AnswerDto;
-import dev.yellowhatpro.qnabackend.dto.QuestionDto;
-import dev.yellowhatpro.qnabackend.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,13 +31,4 @@ public class User {
     private List<Answer> answers;
     @DocumentReference
     private List<User> connections;
-
-    public User(String firstName, String secondName, String username, String address, String email, String phoneNumber) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.username = username;
-        this.address = address;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
 }

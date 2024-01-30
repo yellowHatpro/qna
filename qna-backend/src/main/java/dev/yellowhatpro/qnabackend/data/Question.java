@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Document(collection = "questions")
@@ -31,12 +30,4 @@ public class Question {
     @DocumentReference
     private User questioner;
 
-    public Question(String title, String description, String dateAsked, User questioner) {
-        this.title = title;
-        this.description = description;
-        this.dateAsked = dateAsked;
-        this.isResolved = false;
-        this.questioner = questioner;
-        this.answers = Collections.emptyList();
-    }
 }

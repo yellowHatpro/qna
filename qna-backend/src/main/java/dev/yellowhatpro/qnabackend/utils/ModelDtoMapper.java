@@ -36,6 +36,9 @@ public class ModelDtoMapper {
     }
 
     public static User toUser(UserDto userDto) {
+        if (userDto.getId().isBlank()){
+            userDto.setId((new ObjectId()).toString());
+        }
         return new User(
                 new ObjectId(userDto.getId()),
                 userDto.getFirstName(),
@@ -75,6 +78,9 @@ public class ModelDtoMapper {
     }
 
     public static Question toQuestion(QuestionDto questionDto) {
+        if (questionDto.getId().isBlank()){
+            questionDto.setId((new ObjectId()).toString());
+        }
         return new Question(
                 new ObjectId(questionDto.getId()),
                 questionDto.getTitle(),
@@ -96,17 +102,24 @@ public class ModelDtoMapper {
                 answer.getDateAsked(),
                 answer.getTitle(),
                 answer.getBody(),
-                answer.getTotalUpvotes()
+                answer.getTotalUpvotes(),
+                ModelDtoMapper.toUserDto(answer.getUser()),
+                ModelDtoMapper.toQuestionDto(answer.getQuestion())
         );
     }
 
     public static Answer toAnswer(AnswerDto answerDto) {
+        if (answerDto.getId().isBlank()){
+            answerDto.setId((new ObjectId()).toString());
+        }
         return new Answer(
                 new ObjectId(answerDto.getId()),
                 answerDto.getDateAsked(),
                 answerDto.getTitle(),
                 answerDto.getBody(),
-                answerDto.getTotalUpvotes()
+                answerDto.getTotalUpvotes(),
+                ModelDtoMapper.toUser(answerDto.getUser()),
+                ModelDtoMapper.toQuestion(answerDto.getQuestion())
         );
     }
 }

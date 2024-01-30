@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "answers")
 @Data
@@ -20,11 +21,8 @@ public class Answer {
     private String title;
     private String body;
     private Integer totalUpvotes;
-
-
-    public Answer(String title, String body) {
-        this.title = title;
-        this.body = body;
-        this.totalUpvotes = 0;
-    }
+    @DocumentReference
+    private User user;
+    @DocumentReference
+    private Question question;
 }
