@@ -114,7 +114,7 @@ public class ModelDtoMapper {
         }
         return new Answer(
                 new ObjectId(answerDto.getId()),
-                answerDto.getDateAsked(),
+                answerDto.getDateAnswered(),
                 answerDto.getTitle(),
                 answerDto.getBody(),
                 answerDto.getTotalUpvotes(),

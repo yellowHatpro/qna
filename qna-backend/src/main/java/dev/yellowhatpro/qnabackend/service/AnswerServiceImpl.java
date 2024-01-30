@@ -48,7 +48,7 @@ public class AnswerServiceImpl implements AnswerService{
         existingAnswer.setTotalUpvotes(answer.getTotalUpvotes());
         existingAnswer.setBody(answer.getBody());
         existingAnswer.setTitle(answer.getTitle());
-        existingAnswer.setDateAsked(answer.getDateAsked());
+        existingAnswer.setDateAsked(answer.getDateAnswered());
         Answer updatedAnswer = answerRepository.save(existingAnswer);
         return ModelDtoMapper.toAnswerDto(updatedAnswer);
     }

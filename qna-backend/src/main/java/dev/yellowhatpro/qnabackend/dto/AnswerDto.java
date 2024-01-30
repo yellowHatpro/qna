@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AnswerDto {
     private String id;
-    private String dateAsked;
+    private String dateAnswered;
     private String title;
     private String body;
     private Integer totalUpvotes;
