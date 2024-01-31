@@ -1,21 +1,20 @@
 package dev.yellowhatpro.qnabackend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerDto {
+@Data
+@Builder
+public class AnswerDtoResponse {
     private String id;
     private String dateAnswered;
     private String title;
     private String body;
     private Integer totalUpvotes;
-    private UserDto user;
-    private QuestionDto question;
-
+    private String userId;
+    private String questionId;
 }

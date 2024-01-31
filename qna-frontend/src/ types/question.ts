@@ -1,24 +1,12 @@
-export type question = {
-	id: QuestionId;
+import {User} from "@/ types/user";
+
+export type Question = {
+	id: string;
 	title: string;
 	description: string;
 	dateAsked: string;
 	isResolved: boolean;
-	topics: null;
-	answerIds: QuestionAnswerIds[];
-	authorId: string;
-}
-export type QuestionId = {
-	timestamp: number;
-	date: string;
-}
-export type QuestionAnswerIdsId = {
-	timestamp: number;
-	date: string;
-}
-export type QuestionAnswerIds = {
-	id: QuestionAnswerIdsId;
-	body: string;
-	answererId: string;
-	totalUpvotes: number;
+	topics: any[];
+	answers: any[];
+	questioner: User;
 }

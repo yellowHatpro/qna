@@ -1,9 +1,6 @@
 package dev.yellowhatpro.qnabackend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,7 +8,9 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+@Data
+@Builder
+public class UserDtoResponse {
     private String id;
     private String firstName;
     private String secondName;
@@ -19,7 +18,6 @@ public class UserDto {
     private String address;
     private String email;
     private String phoneNumber;
-    private List<QuestionDto> questionsAsked;
-    private List<AnswerDto> answers;
-    private List<UserDto> connections;
+    private List<String> questionsAskedIds;
+    private List<String> answerIds;
 }

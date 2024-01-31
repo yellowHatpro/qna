@@ -1,6 +1,7 @@
 package dev.yellowhatpro.qnabackend.controller;
 
-import dev.yellowhatpro.qnabackend.dto.AnswerDto;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoRequest;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoResponse;
 import dev.yellowhatpro.qnabackend.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class AnswerController {
     private AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<AnswerDto> createAnswer(@RequestBody AnswerDto answerDto){
-        AnswerDto savedAnswer = answerService.createAnswer(answerDto);
+    public ResponseEntity<AnswerDtoResponse> createAnswer(@RequestBody AnswerDtoRequest answerDto){
+        AnswerDtoResponse savedAnswer = answerService.createAnswer(answerDto);
         return new ResponseEntity<>(savedAnswer, HttpStatus.CREATED);
     }
 }

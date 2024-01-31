@@ -1,20 +1,20 @@
 package dev.yellowhatpro.qnabackend.service;
 
-import dev.yellowhatpro.qnabackend.dto.AnswerDto;
-import dev.yellowhatpro.qnabackend.dto.QuestionDto;
-import org.bson.types.ObjectId;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoResponse;
+import dev.yellowhatpro.qnabackend.dto.QuestionDtoRequest;
+import dev.yellowhatpro.qnabackend.dto.QuestionDtoResponse;
 
 import java.util.List;
 
 public interface QuestionService {
-    QuestionDto createQuestion(QuestionDto question);
-    List<QuestionDto> getAllQuestions();
+    QuestionDtoResponse createQuestion(QuestionDtoRequest question);
+    List<QuestionDtoResponse> getAllQuestions();
 
-    QuestionDto getQuestionById(ObjectId questionId);
+    QuestionDtoResponse getQuestionById(String questionId);
 
-    QuestionDto updateQuestion(QuestionDto question);
+    QuestionDtoResponse updateQuestion(QuestionDtoRequest question);
 
-    List<AnswerDto> getAnswersByQuestionId(ObjectId questionId);
+    List<AnswerDtoResponse> getAnswersByQuestionId(String questionId);
 
-    void deleteQuestionById(ObjectId questionId);
+    void deleteQuestionById(String questionId);
 }

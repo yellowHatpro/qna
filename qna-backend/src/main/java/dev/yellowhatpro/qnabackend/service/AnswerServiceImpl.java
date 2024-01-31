@@ -3,13 +3,15 @@ package dev.yellowhatpro.qnabackend.service;
 import dev.yellowhatpro.qnabackend.data.Answer;
 import dev.yellowhatpro.qnabackend.data.Question;
 import dev.yellowhatpro.qnabackend.data.User;
-import dev.yellowhatpro.qnabackend.dto.AnswerDto;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoRequest;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoResponse;
 import dev.yellowhatpro.qnabackend.repo.AnswerRepository;
 import dev.yellowhatpro.qnabackend.repo.QuestionRepository;
 import dev.yellowhatpro.qnabackend.repo.UserRepository;
-import dev.yellowhatpro.qnabackend.utils.ModelDtoMapper;
+import dev.yellowhatpro.qnabackend.utils.ModelMapper;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,43 +20,46 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AnswerServiceImpl implements AnswerService{
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     private AnswerRepository answerRepository;
     private UserRepository userRepository;
     private QuestionRepository questionRepository;
 
     @Override
-    public AnswerDto createAnswer(AnswerDto answerDto) {
-        Answer answer = ModelDtoMapper.toAnswer(answerDto);
-        Answer savedAnswer = answerRepository.insert(answer);
-        User user = userRepository.findById(new ObjectId(answerDto.getUser().getId())).get();
-        user.getAnswers().add(answer);
+    public AnswerDtoResponse createAnswer(AnswerDtoRequest answerDto) {
+        AnswerDtoResponse answerDtoResponse = modelMapper.toResponseModel(answerDto);
+        Answer savedAnswer = answerRepository.insert(modelMapper.toEntity(answerDtoResponse));
+        User user = userRepository.findUserById(answerDto.getUserId()).get();
+        user.getAnswerIds().add(answerDto.getId());
         userRepository.save(user);
-        Question question = questionRepository.findById(new ObjectId(answerDto.getQuestion().getId())).get();
-        question.getAnswers().add(answer);
+        Question question = questionRepository.findQuestionById(answerDto.getQuestionId()).get();
+        question.getAnswerIds().add(answerDto.getId());
         questionRepository.save(question);
-        return ModelDtoMapper.toAnswerDto(savedAnswer);
+        return modelMapper.toResponseModel(savedAnswer);
     }
 
     @Override
-    public AnswerDto getAnswerById(ObjectId answerId) {
-        Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
-        return ModelDtoMapper.toAnswerDto(optionalAnswer.get());
+    public AnswerDtoResponse getAnswerById(String answerId) {
+        Optional<Answer> optionalAnswer = answerRepository.findAnswerById(answerId);
+        return modelMapper.toResponseModel(optionalAnswer.get());
     }
 
     @Override
-    public AnswerDto updateAnswer(AnswerDto answer) {
+    public AnswerDtoResponse updateAnswer(AnswerDtoRequest answer) {
         Answer existingAnswer = answerRepository.findById(new ObjectId(answer.getId())).get();
-        existingAnswer.setId(new ObjectId(answer.getId()));
+        existingAnswer.setId(answer.getId());
         existingAnswer.setTotalUpvotes(answer.getTotalUpvotes());
         existingAnswer.setBody(answer.getBody());
         existingAnswer.setTitle(answer.getTitle());
-        existingAnswer.setDateAsked(answer.getDateAnswered());
+        existingAnswer.setDateAnswered(answer.getDateAnswered());
         Answer updatedAnswer = answerRepository.save(existingAnswer);
-        return ModelDtoMapper.toAnswerDto(updatedAnswer);
+        return modelMapper.toResponseModel(updatedAnswer);
     }
 
     @Override
-    public void deleteAnswerById(ObjectId answerId) {
-        answerRepository.deleteById(answerId);
+    public void deleteAnswerById(String answerId) {
+        answerRepository.deleteAnswerById(answerId);
     }
 }

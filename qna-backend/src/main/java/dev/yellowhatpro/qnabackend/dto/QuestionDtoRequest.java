@@ -1,9 +1,6 @@
 package dev.yellowhatpro.qnabackend.dto;
-//
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 import java.util.List;
 
@@ -11,13 +8,15 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionDto {
+@Data
+@Builder
+public class QuestionDtoRequest {
     private String id;
     private String title;
     private String description;
     private String dateAsked;
     private Boolean isResolved;
     private List<String> topics;
-    private List<AnswerDto> answers;
-    private UserDto questioner;
+    private List<String> answerIds;
+    private String questionerId;
 }

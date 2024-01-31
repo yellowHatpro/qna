@@ -1,20 +1,20 @@
 package dev.yellowhatpro.qnabackend.service;
 
-import dev.yellowhatpro.qnabackend.dto.AnswerDto;
-import org.bson.types.ObjectId;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoRequest;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoResponse;
 
 public interface AnswerService {
 
     //Create Answer
-    AnswerDto createAnswer(AnswerDto answer);
+    AnswerDtoResponse createAnswer(AnswerDtoRequest answer);
 
     //Get Answer by id
-    AnswerDto getAnswerById(ObjectId answerId);
+    AnswerDtoResponse getAnswerById(String answerId);
 
     //Update Answer
-    AnswerDto updateAnswer(AnswerDto answer);
+    AnswerDtoResponse updateAnswer(AnswerDtoRequest answer);
 
     //Delete Answer
-    void deleteAnswerById(ObjectId answerId);
+    void deleteAnswerById(String answerId);
 
 }

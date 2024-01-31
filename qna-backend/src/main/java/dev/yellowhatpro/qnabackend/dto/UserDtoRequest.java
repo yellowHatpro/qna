@@ -1,21 +1,16 @@
-package dev.yellowhatpro.qnabackend.data;
+package dev.yellowhatpro.qnabackend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.*;
 
 import java.util.List;
 
-@Document(collection = "users")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class User {
-    @Id
+public class UserDtoRequest {
     private String id;
     private String firstName;
     private String secondName;

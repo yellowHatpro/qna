@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {question} from "@/ types/question";
+import {Question} from "@/ types/question";
 import {BiDownArrow, BiUpArrow} from "react-icons/bi";
 
 type questionProp = {
-    question: question
+    question: Question
 }
 export const QuestionCard = ({question}: questionProp) => {
     return (

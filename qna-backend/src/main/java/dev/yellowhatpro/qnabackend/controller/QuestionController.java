@@ -1,10 +1,10 @@
 package dev.yellowhatpro.qnabackend.controller;
 
-import dev.yellowhatpro.qnabackend.dto.AnswerDto;
-import dev.yellowhatpro.qnabackend.dto.QuestionDto;
+import dev.yellowhatpro.qnabackend.dto.AnswerDtoResponse;
+import dev.yellowhatpro.qnabackend.dto.QuestionDtoRequest;
+import dev.yellowhatpro.qnabackend.dto.QuestionDtoResponse;
 import dev.yellowhatpro.qnabackend.service.QuestionService;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,24 +20,24 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping
-    public ResponseEntity<List<QuestionDto>> allQuestions() {
+    public ResponseEntity<List<QuestionDtoResponse>> allQuestions() {
         return new ResponseEntity<>(questionService.getAllQuestions(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionDto> getQuestionById(@PathVariable ObjectId id) {
+    public ResponseEntity<QuestionDtoResponse> getQuestionById(@PathVariable String id) {
         return new ResponseEntity<>(questionService.getQuestionById(id), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<QuestionDto> createQuestion(@RequestBody QuestionDto questionDto) {
-        QuestionDto savedQuestion = questionService.createQuestion(questionDto);
+    public ResponseEntity<QuestionDtoResponse> createQuestion(@RequestBody QuestionDtoRequest questionDtoRequest) {
+        QuestionDtoResponse savedQuestion = questionService.createQuestion(questionDtoRequest);
         return new ResponseEntity<>(savedQuestion, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/answers")
-    public ResponseEntity<List<AnswerDto>> listAnswers(@PathVariable ObjectId id) {
-        List<AnswerDto> listOfAnswers = questionService.getAnswersByQuestionId(id);
+    public ResponseEntity<List<AnswerDtoResponse>> listAnswers(@PathVariable String id) {
+        List<AnswerDtoResponse> listOfAnswers = questionService.getAnswersByQuestionId(id);
         if (!listOfAnswers.isEmpty()) {
             return new ResponseEntity<>(listOfAnswers, HttpStatus.OK);
         } else {
