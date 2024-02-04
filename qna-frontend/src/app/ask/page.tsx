@@ -17,6 +17,8 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 import {Input} from "@/components/ui/input";
+import userStore from "@/store/userStore";
+import {Question} from "@/ types/question";
 
 const FormSchema = z.object({
     questionTitle: z
@@ -35,19 +37,43 @@ const FormSchema = z.object({
 })
 
 const AskPage = () => {
+    const {username, id: userId} = userStore()
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
+        defaultValues: {
+            questionBody: "",
+            questionTitle: ""
+        }
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    function onSubmit({questionTitle, questionBody}: z.infer<typeof FormSchema>) {
+        const newQuestion : Question = {
+            id: Math.random().toString(), //TODO: UUID generator
+            title: questionTitle,
+            description: questionBody,
+            dateAsked: JSON.stringify(Date.now()),
+            isResolved: false,
+            topics: [],
+            answerIds: [],
+            questionerId: userId!
+        }
+        fetch("http://localhost:8080/api/v1/questions/create", {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(newQuestion)}).then(
+            ()=> {
+                toast({
+                    title: "You submitted the following values:",
+                    description: (
+                        <pre className="mt-2 w-[340px] rounded-md p-4">
+          <code className="text-white">{JSON.stringify(newQuestion, null, 2)}</code>
         </pre>
-            ),
-        })
+                    ),
+                })
+            }
+        )
     }
 
     return (

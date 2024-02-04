@@ -1,28 +1,23 @@
 import * as React from 'react';
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
-import {Question} from "@/ types/question";
-import getAllQuestions from "@/lib/getQuestions";
+import getAllQuestions from "@/api/getQuestions";
 import {QuestionCard} from "@/components/questionCard";
+import {Question} from "@/ types/question";
+import Link from "next/link";
 
 export const Body = async() => {
-    const session = await getServerSession(authOptions);
-    const questionsData: Promise<Question[]> = getAllQuestions()
-    const questions = await questionsData
+    const session = await getServerSession(authOptions).catch(e=>console.log(e));
+    const questions: Question[] = await getAllQuestions()
 
-    const searchQuestionDiv = (
-        <section>
-            Search your question
-        </section>
-    )
     const topSection = (
         <section className={"justify-between flex flex-row px-4"}>
             <div className={""}>
                 Search your Question
             </div>
-            <div>
+            <Link href={"/ask"}>
                 Ask a doubt
-            </div>
+            </Link>
         </section>
     )
     const questionsDiv = (

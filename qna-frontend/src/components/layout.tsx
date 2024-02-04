@@ -9,7 +9,8 @@ type Props = {
     children: React.ReactNode,
     user: User
 };
-export const Layout = ({children, user}: Props) => {
+export const Layout = async ({children, user}: Props) => {
+
     return (
         <div className={"flex flex-col justify-between min-h-screen"}>
             <div className={"flex flex-col justify-top"}>

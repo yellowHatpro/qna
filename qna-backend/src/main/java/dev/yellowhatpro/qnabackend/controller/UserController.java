@@ -19,16 +19,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<UserDtoResponse> getUserByName(@PathVariable String username) {
+    @GetMapping("/find-by-username")
+    public ResponseEntity<UserDtoResponse> getUserByName(@RequestParam(name="username", required = false) String username) {
 
         Optional<UserDtoResponse> user = userService.getUserByName(username);
         return user.map(userDto -> new ResponseEntity<>(userDto, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserDtoResponse> userById(@PathVariable String userId) {
+    @GetMapping("/find-by-userId")
+    public ResponseEntity<UserDtoResponse> userById(@RequestParam(name = "userId", required = false) String userId) {
         Optional<UserDtoResponse> userOptional = userService.getUserById(userId);
+        return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/find-by-email")
+    public ResponseEntity<UserDtoResponse> userByEmail(@RequestBody String email) {
+        Optional<UserDtoResponse> userOptional = userService.getUserByEmail(email);
         return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 

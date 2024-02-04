@@ -41,6 +41,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Optional<UserDtoResponse> getUserByEmail(String email) {
+        Optional<User> user = userRepository.findUserByEmail(email);
+        return user.map(value -> modelMapper.toResponseModel(value)).or(Optional::empty);
+    }
+
+    @Override
     public UserDtoResponse updateUser(UserDtoRequest user) {
         User existingUser = userRepository.findById(new ObjectId(user.getId())).get();
         existingUser.setFirstName(user.getFirstName());

@@ -7,6 +7,7 @@ import dev.yellowhatpro.qnabackend.service.QuestionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class QuestionController {
         return new ResponseEntity<>(questionService.getQuestionById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuestionDtoResponse> createQuestion(@RequestBody QuestionDtoRequest questionDtoRequest) {
         QuestionDtoResponse savedQuestion = questionService.createQuestion(questionDtoRequest);
         return new ResponseEntity<>(savedQuestion, HttpStatus.CREATED);

@@ -16,13 +16,13 @@ export const Sidebar = ({user}: SidebarProps) => {
                 <Suspense fallback={
                     <FaUser/>
                 }>
-                    <Image
+                    {user.image && <Image
                         className={"rounded-full"}
                         src={user?.image}
                         width={150}
                         height={150}
                         alt={user?.name ?? "pp"}
-                        priority={true}/>
+                        priority={true}/>}
                 </Suspense>
                 <text>{user?.name}</text>
             </div>

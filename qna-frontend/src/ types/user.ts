@@ -3,15 +3,15 @@ import {Question} from "@/ types/question";
 import {Answer} from "@/ types/answer";
 
 export type User = {
-    id: string;
-    firstName: string;
-    secondName: string;
+    id?: string | null;
+    firstName?: string | null;
+    secondName?: string | null;
     name?: string| null| undefined;
-    username: string;
-    address: string;
+    username?: string | null;
+    address?: string | null;
     email?: string | null| undefined;
-    phoneNumber: string;
-    questionsAsked: Question[];
-    answers: Answer[];
-    image: string | StaticImport;
+    phoneNumber?: string | null;
+    questionsAsked?: Question[];
+    answers?: Answer[];
+    image?: string | StaticImport;
 }
