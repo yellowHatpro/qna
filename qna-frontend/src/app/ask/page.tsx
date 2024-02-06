@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { v4 as uuidv4 } from 'uuid';
 
 import { Button } from "@/components/ui/button"
 import {
@@ -37,7 +38,7 @@ const FormSchema = z.object({
 })
 
 const AskPage = () => {
-    const {username, id: userId} = userStore()
+    const {id: userId} = userStore()
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -48,7 +49,7 @@ const AskPage = () => {
 
     function onSubmit({questionTitle, questionBody}: z.infer<typeof FormSchema>) {
         const newQuestion : Question = {
-            id: Math.random().toString(), //TODO: UUID generator
+            id: uuidv4(),
             title: questionTitle,
             description: questionBody,
             dateAsked: JSON.stringify(Date.now()),

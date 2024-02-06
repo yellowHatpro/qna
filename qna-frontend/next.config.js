@@ -4,10 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {hostname: "avatars.githubusercontent.com"}
         ],
-    },
-    experimental : {
-        serverActions: true,
-    },
+    }
 };
 
 module.exports = nextConfig
