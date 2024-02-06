@@ -14,5 +14,6 @@ export function toDate(unixTime: string){
   let day = date.getDate()
   let month = date.getMonth()+1
   let year = date.getFullYear()
- return `${hours}:${minutes}:${seconds}, ${day}/${month}/${year}`
+  let pm = (hours/12)>=1;
+ return `${hours%12}:${minutes}:${seconds} ${pm ? "PM" : "AM"}, ${day}/${month}/${year}`
 }

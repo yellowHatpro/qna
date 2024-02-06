@@ -9,11 +9,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import {signIn, signOut} from "next-auth/react";
+import userStore from "@/store/userStore";
 
 export interface NavbarProps {
     user: User | null | undefined
 }
-export const Navbar = async ({user}: NavbarProps) => {
+export const Navbar = ({user}: NavbarProps) => {
+    const {username} = userStore()
+
     return (user) ? (
         <header
             className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,7 +34,7 @@ export const Navbar = async ({user}: NavbarProps) => {
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <Link href={"/profile"}>
+                        <Link href={`/profile/${username}`}>
                             <DropdownMenuItem>
                                 Profile
                             </DropdownMenuItem>

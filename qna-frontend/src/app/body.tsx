@@ -12,11 +12,12 @@ import {SearchIcon} from "lucide-react";
 export const Body = async() => {
     const session = await auth()
     const questions: Question[] = await getAllQuestions()
+    questions.reverse()
 
     const topSection = (
-        <section className={"justify-between flex flex-row px-4"}>
-            <Button variant={"outline"} className={"inline-flex"}>
-               <SearchIcon/> Search your Question
+        <section className={"justify-between flex flex-row px-4 pt-4"}>
+            <Button variant={"outline"} className={"inline-flex child:mr-2"}>
+               <SearchIcon/> {"Search your Question"}
             </Button>
             <Link href={"/ask"}>
                 <Button variant={"outline"}>

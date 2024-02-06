@@ -5,7 +5,7 @@
 @layer base {
   :root {
     margin: auto;
-
+    min-width: fit-content;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
 

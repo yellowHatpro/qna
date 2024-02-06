@@ -8,6 +8,7 @@ import getUserByEmail from "@/api/getUserByEmail";
 import StoreInitializer from "@/components/storeInitializer";
 import userStore from "@/store/userStore";
 import {auth} from "../../auth";
+import {jetbrains} from "@/lib/fonts";
 export const metadata: Metadata = {
   title: 'qna',
   description: 'qna application',
@@ -24,8 +25,8 @@ export default async function RootLayout({
         console.log(userData)
     }
     return (
-    <html lang="en">
-      <body className={"dark"}>
+    <html lang="en" className={jetbrains.variable}>
+      <body className={"dark font-sans"}>
       <SessionProvider>
           <StoreInitializer user={userStore.getState()}/>
           <Layout user = {session?.user as User}>

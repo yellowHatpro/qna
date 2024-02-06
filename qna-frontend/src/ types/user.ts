@@ -1,6 +1,4 @@
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
-import {Question} from "@/ types/question";
-import {Answer} from "@/ types/answer";
 
 export type User = {
     id?: string | null;
@@ -11,7 +9,7 @@ export type User = {
     address?: string | null;
     email?: string | null| undefined;
     phoneNumber?: string | null;
-    questionsAsked?: Question[];
-    answers?: Answer[];
+    questionsAskedIds?: string[];
+    answerIds?: string[];
     image?: string | StaticImport;
 }
