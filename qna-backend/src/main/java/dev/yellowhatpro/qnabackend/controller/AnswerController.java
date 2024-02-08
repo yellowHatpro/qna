@@ -6,10 +6,7 @@ import dev.yellowhatpro.qnabackend.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/answers")
@@ -22,5 +19,10 @@ public class AnswerController {
     public ResponseEntity<AnswerDtoResponse> createAnswer(@RequestBody AnswerDtoRequest answerDto){
         AnswerDtoResponse savedAnswer = answerService.createAnswer(answerDto);
         return new ResponseEntity<>(savedAnswer, HttpStatus.CREATED);
+    }
+    @GetMapping("/find-by-answerId")
+    public ResponseEntity<AnswerDtoResponse> answerById(@RequestParam(name = "answerId", required = false) String answerId) {
+        AnswerDtoResponse answer = answerService.getAnswerById(answerId);
+        return new ResponseEntity<>(answer, HttpStatus.OK);
     }
 }

@@ -21,6 +21,7 @@ public class ModelMapper {
                 .address(userDtoRequest.getAddress())
                 .email(userDtoRequest.getEmail())
                 .phoneNumber(userDtoRequest.getPhoneNumber())
+                .image(userDtoRequest.getImage())
                 .questionsAskedIds(userDtoRequest.getQuestionsAskedIds())
                 .answerIds(userDtoRequest.getAnswerIds())
                 .build();
@@ -37,6 +38,7 @@ public class ModelMapper {
                 .address(user.getAddress())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
+                .image(user.getImage())
                 .questionsAskedIds(user.getQuestionsAskedIds())
                 .answerIds(user.getAnswerIds())
                 .build();
@@ -51,6 +53,7 @@ public class ModelMapper {
                 .username(userDtoResponse.getUsername())
                 .address(userDtoResponse.getAddress())
                 .email(userDtoResponse.getEmail())
+                .image(userDtoResponse.getImage())
                 .phoneNumber(userDtoResponse.getPhoneNumber())
                 .questionsAskedIds(userDtoResponse.getQuestionsAskedIds())
                 .answerIds(userDtoResponse.getAnswerIds())

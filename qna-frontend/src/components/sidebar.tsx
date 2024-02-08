@@ -13,17 +13,6 @@ export const Sidebar = ({user}: SidebarProps) => {
     return (
         user && <div className={"flex flex-col text-sm items-center min-w-full"}>
             <div className={"flex flex-col items-center"}>
-                <Suspense fallback={
-                    <FaUser/>
-                }>
-                    {user.image && <Image
-                        className={"rounded-full"}
-                        src={user?.image}
-                        width={150}
-                        height={150}
-                        alt={user?.name ?? "pp"}
-                        priority={true}/>}
-                </Suspense>
                 <text>{user?.name}</text>
             </div>
             <div className={"flex flex-col child:m-2 child:p-1 hover:child:bg-neutral-900 child:w-full  w-full px-8 child:rounded"}>

@@ -5,4 +5,5 @@ export type Answer = {
     totalUpvotes: number;
     userId: string;
     questionId: string;
+    dateAnswered: string
 }

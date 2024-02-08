@@ -13,41 +13,32 @@ export const Body = async() => {
     const session = await auth()
     const questions: Question[] = await getAllQuestions()
     questions.reverse()
-
-    const topSection = (
-        <section className={"justify-between flex flex-row px-4 pt-4"}>
-            <Button variant={"outline"} className={"inline-flex child:mr-2"}>
-               <SearchIcon/> {"Search your Question"}
-            </Button>
-            <Link href={"/ask"}>
-                <Button variant={"outline"}>
-                    Ask a doubt
-                </Button>
-            </Link>
-        </section>
-    )
-    const questionsDiv = (
-        <section className={"grid auto-rows-fr grid-cols-1 gap-4 justify-between grow p-2 m-2"}>
-            {
-                questions.map((question)=>{
-                    return <>
-                        <QuestionCard question={question}/>
-                    </>
-                })
-            }
-        </section>
-    )
     return (<div>{
 
-            (session && session.user) ? <div>
-                {topSection}
-                {questionsDiv}
-            </div> :
-            //not signed in
-                <div className={"pt-16"}>
+            (session && session.user) ? <div className={"p-2"}>
+                    <section className={"justify-between flex flex-row"}>
+                        <Button variant={"outline"} className={"inline-flex child:mr-2"}>
+                            <SearchIcon/> {"Search your Question"}
+                        </Button>
+                        <Link href={"/ask"}>
+                            <Button variant={"outline"}>
+                                Ask a doubt
+                            </Button>
+                        </Link>
+                    </section>
+                    <section>
+                        {
+                            questions.map((question) => {
+                                return <QuestionCard key={question.id} question={question}/>
+                            })
+                        }
+                    </section>
+                </div> :
+                //not signed in
+                <div>
                     <WavyBackground className="flex flex-col justify-center items-center text-center">
                         <p className="text-2xl md:text-4xl lg:text-7xl text-white font-bold inter-var text-center">
-                            Instant answers, endless conversations, endless
+                            Instant answers, geeky conversations, endless
                             insights.
                         </p>
                         <p className="text-base md:text-lg mt-4 text-white font-normal inter-var text-center">
@@ -56,7 +47,7 @@ export const Body = async() => {
                     </WavyBackground>
                     <div
                         className="h-fit w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
-                        <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center text-white relative z-20">
+                        <h1 className="md:text-7xl text-6xl lg:text-9xl font-bold text-center text-white relative z-20">
                             qna
                         </h1>
                         <div className="w-[40rem] h-40 relative">

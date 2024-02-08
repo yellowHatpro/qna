@@ -3,73 +3,57 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { v4 as uuidv4 } from 'uuid';
-
 import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
 import {Input} from "@/components/ui/input";
 import userStore from "@/store/userStore";
-import {Question} from "@/ types/question";
+import {toast} from "@/components/ui/use-toast";
+import {User} from "@/ types/user";
 
 const FormSchema = z.object({
-    questionTitle: z
-        .string()
-        .min(6, {
-            message: "Title must be at least 6 characters.",
-        })
-        .max(160, {
-            message: "Title must not be longer than 30 characters.",
-        }),
-    questionBody: z
+    name: z.string(),
+    phoneNumber: z
         .string()
         .min(10, {
-            message: "Body must be at least 10 characters.",
+            message: "Number must be at least 10 characters.",
         }),
 })
 
-const AskPage = () => {
-    const {id: userId} = userStore()
+const SettingForm = () => {
+    const user = userStore()
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            questionBody: "",
-            questionTitle: ""
+            name: "",
+            phoneNumber: ""
         }
     })
 
-    function onSubmit({questionTitle, questionBody}: z.infer<typeof FormSchema>) {
-        const newQuestion : Question = {
-            id: uuidv4(),
-            title: questionTitle,
-            description: questionBody,
-            dateAsked: JSON.stringify(Date.now()),
-            isResolved: false,
-            topics: [],
-            answerIds: [],
-            questionerId: userId!
+    function onSubmit({name, phoneNumber}: z.infer<typeof FormSchema>) {
+        const newUser: User = {
+            ...user,
+            name: name,
+            phoneNumber: phoneNumber
         }
-        fetch("http://localhost:8080/api/v1/questions/create", {
+        fetch("http://localhost:8080/api/v1/users/update", {
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify(newQuestion)}).then(
+            body: JSON.stringify(newUser)}).then(
             ()=> {
                 toast({
                     title: "Successfully created question ✅",
                     description: (
                         <pre className="mt-2 w-[340px] rounded-md p-4">
-          <code className="text-white">{questionTitle}</code>
+          <code className="text-white">User updated successfully ✅</code>
         </pre>
                     ),
                 })
@@ -82,13 +66,14 @@ const AskPage = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
                 <FormField
                     control={form.control}
-                    name="questionTitle"
+                    name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Title</FormLabel>
+                            <FormLabel>Name</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="Enter your title here"
+                                    placeholder={user.firstName??
+                                "Enter your name"}
                                     className="resize-none"
                                     {...field}
                                 />
@@ -99,20 +84,18 @@ const AskPage = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="questionBody"
+                    name="phoneNumber"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Body</FormLabel>
+                            <FormLabel>Phone number</FormLabel>
                             <FormControl>
-                                <Textarea
-                                    placeholder="Tell us a little bit about your doubt"
+                                <Input
+                                    placeholder={user.phoneNumber??
+                                        "Enter your phone number"}
                                     className="resize-none"
                                     {...field}
                                 />
                             </FormControl>
-                            <FormDescription>
-                                Please follow the community guidelines before creating a doubt.
-                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -123,4 +106,4 @@ const AskPage = () => {
     )
 }
 
-export default AskPage
+export default SettingForm
