@@ -34,11 +34,16 @@ jobs:
         working-directory: ./qna-backend
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew clean build -Dspring.data.mongodb.uri=mongodb+srv://${{secrets.MONGO_USER}}:${{secrets.MONGO_PASSWORD}}@${{secrets.MONGO_CLUSTER}}/${{secrets.MONGO_DB}}
+        run: ./gradlew clean build
         working-directory: ./qna-backend
 
       - name: Build docker image
-        run: docker build -t yellowhatpro/qna .
+        env:
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+          MONGO_CLUSTER: ${{ secrets.MONGO_CLUSTER }}
+          MONGO_DB: ${{ secrets.MONGO_DB}}
+        run: docker build --build-arg MONGO_CONN=-Dspring.data.mongodb.uri=mongodb+srv://${{ env.MONGO_USER}}:${{ env.MONGO_PASSWORD}}@"${{ env.MONGO_CLUSTER}}"/${{ env.MONGO_DB}} -t yellowhatpro/qna .
         working-directory: ./qna-backend
 
       - name: Login to dockerhub
