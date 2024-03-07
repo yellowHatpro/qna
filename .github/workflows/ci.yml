@@ -34,12 +34,7 @@ jobs:
         working-directory: ./qna-backend
 
       - name: Build with Gradle Wrapper
-        env:
-          MONGO_USER: ${{ secrets.MONGO_USER }}
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-          MONGO_CLUSTER: ${{ secrets.MONGO_CLUSTER }}
-          MONGO_DB: ${{ secrets.MONGO_DB}}
-        run: ./gradlew clean build -Dspring.data.mongodb.uri=mongodb+srv://${{ env.MONGO_USER}}:${{ env.MONGO_PASSWORD}}@"${{ env.MONGO_CLUSTER}}"/${{ env.MONGO_DB}}
+        run: ./gradlew clean build -Dspring.data.mongodb.uri=mongodb+srv://${{secrets.MONGO_USER}}:${{secrets.MONGO_PASSWORD}}@${{secrets.MONGO_CLUSTER}}/${{secrets.MONGO_DB}}
         working-directory: ./qna-backend
 
       - name: Build docker image
