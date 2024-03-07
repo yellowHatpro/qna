@@ -1,4 +1,4 @@
-name: qna-ci
+name: qna-backend ci and push image to dockerhub
 
 on:
   push:
@@ -11,7 +11,9 @@ on:
     branches: ["master"]
 
 jobs:
-  build:
+  build_and_push:
+    name: qna-ci
+    environment: dockerhub
     runs-on: ubuntu-latest
 
     steps:
@@ -32,5 +34,22 @@ jobs:
         working-directory: ./qna-backend
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        env:
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+          MONGO_CLUSTER: ${{ secrets.MONGO_CLUSTER }}
+          MONGO_DB: ${{ secrets.MONGO_DB}}
+        run: ./gradlew clean build -DMONGO_USER=${{ env.MONGO_USER}} -DMONGO_PASSWORD=${{ env.MONGO_PASSWORD}} -DMONGO_CLUSTER="${{ env.MONGO_CLUSTER}}" -DMONGO_DB=${{ env.MONGO_DB}}
         working-directory: ./qna-backend
+
+      - name: Build docker image
+        run: docker build -t yellowhatpro/qna .
+
+      - name: Login to dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push image to dockerhub
+        run: docker push yellowhatpro/qna
