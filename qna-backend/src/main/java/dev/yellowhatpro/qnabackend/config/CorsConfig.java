@@ -13,7 +13,7 @@ public class CorsConfig {
     @Bean
     CorsConfigurationSource configurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://localhost", "https://wa-qna.azurewebsites.net/"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://localhost", "https://wa-qna.azurewebsites.net/", "https://qna-amber.vercel.app/"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

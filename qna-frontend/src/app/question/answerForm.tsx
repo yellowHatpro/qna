@@ -11,6 +11,7 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
 import {Answer} from "@/ types/answer";
+import {url} from "@/lib/utils";
 
 const FormSchema = z.object({
     answerTitle: z
@@ -52,7 +53,7 @@ export const AnswerForm = ({questionId}:AnswerFormProps ) => {
             questionId: questionId,
             dateAnswered:  Date.now().toString()
         }
-        fetch("http://localhost:8080/api/v1/answers", {
+        fetch(`${url}/api/v1/answers`, {
             headers: {
                 'Content-Type': 'application/json'
             },

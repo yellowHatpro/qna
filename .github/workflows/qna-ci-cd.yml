@@ -44,7 +44,7 @@ jobs:
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
           MONGO_CLUSTER: ${{ secrets.MONGO_CLUSTER }}
           MONGO_DB: ${{ secrets.MONGO_DB}}
-        run: docker build --build-arg MONGO_CONN=-Dspring.data.mongodb.uri=mongodb+srv://${{ env.MONGO_USER}}:${{ env.MONGO_PASSWORD}}@"${{ env.MONGO_CLUSTER}}"/${{ env.MONGO_DB}} -t yellowhatpro/qna .
+        run: docker build --build-arg MONGO_CONN=-Dspring.data.mongodb.uri=mongodb+srv://${{ env.MONGO_USER}}:${{ env.MONGO_PASSWORD}}@${{ env.MONGO_CLUSTER}}/${{ env.MONGO_DB}} -t yellowhatpro/qna .
         working-directory: ./qna-backend
 
       - name: Login to dockerhub

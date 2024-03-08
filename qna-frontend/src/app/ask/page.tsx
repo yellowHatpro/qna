@@ -20,6 +20,7 @@ import { toast } from "@/components/ui/use-toast"
 import {Input} from "@/components/ui/input";
 import userStore from "@/store/userStore";
 import {Question} from "@/ types/question";
+import {url} from "@/lib/utils";
 
 const FormSchema = z.object({
     questionTitle: z
@@ -58,7 +59,7 @@ const AskPage = () => {
             answerIds: [],
             questionerId: userId!
         }
-        fetch("http://localhost:8080/api/v1/questions/create", {
+        fetch(`${url}/api/v1/questions/create`, {
             headers: {
                 'Content-Type': 'application/json'
             },
