@@ -24,3 +24,6 @@ export function toFullDate(unixTime: string) {
   let pm = (hours / 12) >= 1;
   return `${day}/${month}/${year}, ${hours % 12}:${minutes}:${seconds} ${pm ? "PM" : "AM"}`
 }
+
+export const env = process.env.NODE_ENV === "development" ? "development" : "production"
+export const url = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://wa-qna.azurewebsites.net"
